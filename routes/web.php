@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Http\Controllers\EmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,21 +16,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('form');
 });
+Route::get('/m', function () {
+	$a="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+	$b="lorem ipsum";
 
-Route::get('/a', function (){
-   $data = array('name'=>"Mensagem Automatica");
-        // Path or name to the blade template to be rendered
-   $template_path = 'welcome';
-
-   Mail::send(['text'=> $template_path ], $data, function($message) {
-            // Set the receiver and subject of the mail.
-    $message->to('kristyanhenrique@hotmail.com', 'Nome de quem vai receber')->subject('Laravel First Mail');
-            // Set the sender
-    $message->from('kristyanhenrique@hotmail.com','Mensagem Automatica');
+	return view('welcome',[
+		'content'=>$a,
+		'assunto'=>$b
+	]);
 });
-
-   return "Basic email sent, check your inbox.";
-
-});
+Route::post('/a',[EmailController::class,'disparar'])->name('send.Email');

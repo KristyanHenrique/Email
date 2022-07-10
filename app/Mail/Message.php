@@ -16,9 +16,9 @@ class Message extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($var)
     {
-        //
+        $this->var = $var;
     }
 
     /**
@@ -27,6 +27,11 @@ class Message extends Mailable
      * @return $this
      */
     public function build() {
-        return $this->from('kristyanhenrique@hotmail.com')->view('welcome');
+        return $this->from('kristyanhenrique@hotmail.com')->view('welcome')->with([
+            'conteudo' => $this->var[0],
+            'nome' => $this->var[1],
+            'email' => $this->var[2],
+            
+        ]);
     }
 }
